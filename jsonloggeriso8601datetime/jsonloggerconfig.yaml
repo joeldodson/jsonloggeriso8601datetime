@@ -1,0 +1,56 @@
+version: 1
+formatters:
+    simpleConsole:
+        format: '%(module)s %(name)s %(levelname)s %(message)s'
+    jsonFile:
+        (): jsonloggeriso8601datetime.CustomJsonFormatter
+        format: '%(timestamp)s %(module)s %(name)s %(levelname)s %(message)s'
+
+handlers:
+    console:
+        class:  logging.StreamHandler 
+        level: INFO
+        formatter: simpleConsole 
+        stream: ext://sys.stdout 
+
+    jsonFile:
+        class: logging.FileHandler 
+        level: DEBUG
+        formatter: jsonFile 
+        filename: jsonLogs.log 
+        encoding: utf8
+
+
+root:
+    level: DEBUG 
+    handlers: [console, jsonFile]
+
+
+# this comment block is the original, hard coded config.
+# I'm adding this comment to see the translation from the 
+# code based config to the YAML config 
+#    # the code commented out below was moved to the yaml config
+#    # It's here for now for reference, I'll delete it at some point
+#    """
+#    # setup console handler with only module, level, and message
+#    ch = logging.StreamHandler(sys.stdout)
+#    ch.setLevel(logging.INFO)
+#    cf = logging.Formatter('%(module)s %(name)s %(levelname)s %(message)s')
+#    ch.setFormatter(cf)
+#
+#    # setup file handler to log JSON with more info and debug default
+#    fh = logging.FileHandler(logfileName)
+#    fh.setLevel(logging.DEBUG)
+#    jf = CustomJsonFormatter('%(timestamp)s %(module)s %(name)s %(levelname)s %(message)s')
+#    fh.setFormatter(jf)
+#    """
+#
+#    logger = logging.getLogger(name)
+#    """
+#    logger.propagate = False
+#    logger.setLevel(logging.DEBUG)
+#    logger.addHandler(ch)
+#    logger.addHandler(fh)
+#    """
+#    return logger
+#
