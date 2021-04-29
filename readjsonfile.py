@@ -68,22 +68,26 @@ def countJsonProperties(filename):
                 properties_count[key] += 1
             else:
                 properties_count[key] = 1 
-    print(properties_count)
+    print(json.dumps(properties_count, indent=4))
+
 
 def printJsonProperties(filename, properties):
     for log_obj in getJsonObjectsFromFile(filename):
         printstring = ""
         for prop in properties:
-            printstring += f'{prop} :: [{log_obj.get(prop)}], '
+            printstring += f'{prop} = {log_obj.get(prop)}, '
         print(printstring)
 
 
 if __name__ == '__main__':
-    object_property_to_print = 'message'
-    if (len(sys.argv) < 2):
+    properties = ['message']
+    if len(sys.argv) < 2:
         print("Usage: readJsonFile.py <logfilename> [[str, ...]:object_properties_to_print]")
     else:
         logfileName = sys.argv[1]
-        countJsonProperties(logfileName)
-    ## if (len(sys.argv) > 2): object_property_to_print = sys.argv[2]
-    ## printJsonLogsUsingNext(logfileName, object_property_to_print)
+        if len(sys.argv) == 2: 
+            countJsonProperties(logfileName)
+        else:
+            properties = sys.argv[2:]
+            print(f'properties is {properties}')
+            printJsonProperties(logfileName, properties)
