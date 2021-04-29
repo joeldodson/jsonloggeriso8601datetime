@@ -7,6 +7,9 @@ if __name__ == '__main__':
     parentLogger = getJsonLogger('parentLogger')
     childLogger = getJsonLogger('parentLogger.childLogger')
 
+    parentLogger.warning("using dict config now") 
+    childLogger.warning("okay boomer, go back to your dict config, yaml is too hip for you.")
+
     parentLogger.info('info log from parentLogger')
     childLogger.info('info log from childLogger')
 

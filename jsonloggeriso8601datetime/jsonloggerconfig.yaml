@@ -1,3 +1,16 @@
+/*******
+this yaml file is no longer used.  I'm leaving it in the project as an example of using a yaml file for logging configuration.  
+here is the code I took out of __init__ to convert the yaml to a dict.
+
+"""
+read in the yaml based logging configuration 
+
+with open('./jsonloggeriso8601datetime/jsonloggerconfig.yaml', 'r') as f:
+    config = yaml.safe_load(f.read())
+    logging.config.dictConfig(config)
+"""
+
+*******/
 version: 1
 formatters:
     simpleConsole:
