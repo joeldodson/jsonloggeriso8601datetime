@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 """ 
-I took this from my galip project
-https://github.com/blindgumption/galip
-
-I stripped out all the inotify stuff,
-I only want to be able to read in text, determine if it's JSON 
+I want to be able to read in text, determine if it's JSON 
 and print out some of it.
 
 generator that returns objects from files containing lines of text each which is syntactically valid JSON
@@ -17,9 +13,16 @@ getJsonObjectsFromFile(filename) will iterate through each line in the file and 
 """
 
 
-import json
 import sys 
 import os.path as path 
+import typer 
+import json 
+from typing import List 
+from typing import Dict 
+
+
+app = typer.Typer()
+
 
 def getFileComponents(name):
     """
@@ -91,3 +94,23 @@ if __name__ == '__main__':
             properties = sys.argv[2:]
             print(f'properties is {properties}')
             printJsonProperties(logfileName, properties)
+
+ 
+#######
+# callback makes 'main' the default command to run if no commands are given 
+##
+@app.callback(invoke_without_command=True)
+def main(jsonFilename: str,
+        property: str = typer.Option(None, "--property", "-p"),
+        caseSensitive: bool = typer.Option(False, "--caseSensitive", "-c"),
+) -> None:
+    if property: 
+            shortcuts = filterShortcuts(searchStr)
+        printShortcuts(pageSize, when)
+
+
+if __name__ == "__main__":
+    app()
+    ## typer.run(main)
+
+## end of file 
