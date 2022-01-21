@@ -85,7 +85,7 @@ def printJsonProperties(filename, properties):
 if __name__ == '__main__':
     properties = ['message']
     if len(sys.argv) < 2:
-        print("Usage: readJsonFile.py <logfilename> [[str, ...]:object_properties_to_print]")
+        print("Usage: readJsonFile.py <jsonfilename> [str [, str, ...]:object_properties_to_print]")
     else:
         logfileName = sys.argv[1]
         if len(sys.argv) == 2: 
