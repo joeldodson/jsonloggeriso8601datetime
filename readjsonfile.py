@@ -1,15 +1,16 @@
-#!/usr/bin/env python3
+###
+# # #!/usr/bin/env python3
+
+
 """ 
 I want to be able to read in text, determine if it's JSON 
 and print out some of it.
 
-generator that returns objects from files containing lines of text each which is syntactically valid JSON
-
-lazy iterator to get JSON objects from file.
 The expectation is each line in the file is syntactically valid JSON.
 Lines that are not valid JSON will be ignored.
 
-getJsonObjectsFromFile(filename) will iterate through each line in the file and return an object if the line is valid JSON
+getJsonObjectsFromFile(filename) will iterate through each line in the file and return an object if the line is valid JSON.
+If it is, the specified properties will be printed.
 """
 
 
@@ -17,13 +18,13 @@ import sys
 import os.path as path 
 import typer 
 import json 
-from typing import List 
-from typing import Dict 
+from typing import List, Dict, Optional  
 
 
 app = typer.Typer()
 
 
+#######
 def getFileComponents(name):
     """
     return (apspath, dirname, filename) if name is the name of a file, else throw exception.
@@ -37,7 +38,7 @@ def getFileComponents(name):
     (dirname, filename) = path.split(abs)
     return (abs, dirname, filename)
 
-
+#######
 def isJson(tstr):
     """ if tstr is valid JSON, return object created from the string, else, return None """ 
     ret = None
@@ -47,12 +48,13 @@ def isJson(tstr):
         pass
     return ret
 
-
+#######
 def getJsonObjectFromLog(binary_log):
     """ take the binary string and return an object if the string is valid JSON """ 
     log = binary_log.decode(errors='ignore')
     return isJson(log)
 
+#######
 def getJsonObjectsFromFile(filename):
     """ simply read all lines from the file and return objects for valid JSON lines """ 
     with open(filename,'rb') as logs:
@@ -63,6 +65,7 @@ def getJsonObjectsFromFile(filename):
 
 """ examples of using the getJsonObjectsFromFile generator """ 
 
+#######
 def countJsonProperties(filename):
     properties_count = {}
     for log_obj in getJsonObjectsFromFile(filename):
@@ -71,43 +74,34 @@ def countJsonProperties(filename):
                 properties_count[key] += 1
             else:
                 properties_count[key] = 1 
-    print(json.dumps(properties_count, indent=4))
+    typer.echo(json.dumps(properties_count, indent=4))
 
 
-def printJsonProperties(filename, properties):
+#######
+def printJsonProperties(filename, properties, all, insensitive):
     for log_obj in getJsonObjectsFromFile(filename):
-        printstring = ""
-        for prop in properties:
-            printstring += f'{prop} = {log_obj.get(prop)}, '
-        print(printstring)
-
-
-if __name__ == '__main__':
-    properties = ['message']
-    if len(sys.argv) < 2:
-        print("Usage: readJsonFile.py <jsonfilename> [str [, str, ...]:object_properties_to_print]")
-    else:
-        logfileName = sys.argv[1]
-        if len(sys.argv) == 2: 
-            countJsonProperties(logfileName)
+        if all:
+            typer.echo(log_obj)
         else:
-            properties = sys.argv[2:]
-            print(f'properties is {properties}')
-            printJsonProperties(logfileName, properties)
+            printstring = ""
+            for prop in properties:
+                printstring += f'{prop} = {log_obj.get(prop)}, '
+            typer.echo(printstring)
 
- 
+
 #######
 # callback makes 'main' the default command to run if no commands are given 
 ##
 @app.callback(invoke_without_command=True)
-def main(jsonFilename: str,
-        property: str = typer.Option(None, "--property", "-p"),
-        caseSensitive: bool = typer.Option(False, "--caseSensitive", "-c"),
+def main(jsonFilename: str = typer.Argument(...),
+        properties: Optional[List[str]] = typer.Option(None, "-p", "--property", help="use multiple -p options to print multiple properties."),   
+        all: bool = typer.Option(False, "-a", "--all", help="print all properties, -p flags are ignored when this is set"),
+        insensitive: bool = typer.Option(False, "-i",  "--insensitive", help="ignore case when matching property names, default is case sensitive")
 ) -> None:
-    if property: 
-            shortcuts = filterShortcuts(searchStr)
-        printShortcuts(pageSize, when)
-
+    if properties or all: 
+        printJsonProperties(jsonFilename, properties, all, insensitive)
+    else:
+        countJsonProperties(jsonFilename)
 
 if __name__ == "__main__":
     app()
