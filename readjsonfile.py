@@ -1,5 +1,4 @@
-###
-# # #!/usr/bin/env python3
+#!/usr/bin/env python3
 
 
 """ 
@@ -76,35 +75,63 @@ def countJsonProperties(filename):
                 properties_count[key] = 1 
     typer.echo(json.dumps(properties_count, indent=4))
 
+#######
+def printAllProperties(obj: object) -> None:
+    typer.echo(obj)
 
 #######
-def printJsonProperties(filename, properties, all, insensitive):
+def getPropertyFromObject(obj: object, prop: str, submatch: bool, insensitive: bool) -> str:
+    ret = ""
+    return ret 
+
+#######
+def printSpecifiedProperties(obj: object, properties: List[str], submatch: bool, insensitive: bool) -> None:
+    """
+    if the obj contains a property listed in the properties list,
+    print a line with the property and value of each match,
+    else don't print anything 
+    """
+    printstring = ""
+    for prop in properties:
+        if submatch or insensitive:
+            # iterating through each property appears to be the only way to 
+            # check if prop is a substring of a property in the object,
+            # or to do a case insensitive get() 
+            printstring += getPropertyFromObject(obj, prop, submatch, insensitive)
+        else: 
+            # if submatch and insensitive are both False, check if the property is in the object
+            # if it is, add the property and its value to the print string.
+            value = obj.get(prop, None)
+            if value != None:
+                printstring += f'{prop} = {value}, '
+    if len(printstring) > 0:
+        typer.echo(printstring)
+
+#######
+def printJsonProperties(filename, properties, all, submatch, insensitive):
     for log_obj in getJsonObjectsFromFile(filename):
         if all:
-            typer.echo(log_obj)
-        else:
-            printstring = ""
-            for prop in properties:
-                printstring += f'{prop} = {log_obj.get(prop)}, '
-            typer.echo(printstring)
-
+            printAllProperties(log_obj)
+        else: 
+            printSpecifiedProperties(log_obj, properties, submatch, insensitive)
 
 #######
 # callback makes 'main' the default command to run if no commands are given 
 ##
 @app.callback(invoke_without_command=True)
-def main(jsonFilename: str = typer.Argument(...),
+def main(jsonfile: str = typer.Argument(...),
         properties: Optional[List[str]] = typer.Option(None, "-p", "--property", help="use multiple -p options to print multiple properties."),   
-        all: bool = typer.Option(False, "-a", "--all", help="print all properties, -p flags are ignored when this is set"),
+        all: bool = typer.Option(False, "-a", "--all", help="print all properties, -p options are ignored when this is set"),
+        submatch: bool = typer.Option(False, "-s",  "--submatch", help="let specified properties be a substring of a json property, default is whole word match"),
         insensitive: bool = typer.Option(False, "-i",  "--insensitive", help="ignore case when matching property names, default is case sensitive")
 ) -> None:
+    typer.echo(jsonfile)
     if properties or all: 
-        printJsonProperties(jsonFilename, properties, all, insensitive)
+        printJsonProperties(jsonfile, properties, all, submatch, insensitive)
     else:
-        countJsonProperties(jsonFilename)
+        countJsonProperties(jsonfile)
 
 if __name__ == "__main__":
     app()
-    ## typer.run(main)
 
 ## end of file 
