@@ -2,7 +2,7 @@
 
 Uses the package 
 [python-json-logger](https://pypi.org/project/python-json-logger/) 
-as a starting point and adds a simple custom formatter to format the timestamp to comply with ISO8601.  I also add a default config to log to the console and to a log file. 
+as a starting point and adds a simple custom formatter to format the timestamp to comply with ISO8601 formats.  I also add a default config to log to the console and to a log file. 
 
 ## Configuration 
 I was using a yaml file for configuration.  I wanted to use the same config for gunicorn though and it does not support yaml based config.  So I converted the yaml  config to a dict to use Python's dictConfig.
@@ -18,10 +18,13 @@ You might notice there's a gunicorn logger in the config file.  I added that to 
 
 See the requirements.txt file for the packages this package requires.
 
-## readjsonfile.py utility 
+## queryjsonfile.py utility 
 I wanted to know what the JSON in the log files looked like, e.g., the properties it contained and how consistent each JSON object was.  I also wanted to be able to print only some of the properties (grep/awk would be painful to pick out properties and their values).
 
-readjsonfile.py does this for me.  If you run it with no arguments, a usage line is printed. 
+queryjsonfile.py does this for me.  
+run:
+queryjsonfile.py --help 
+for information regarding arguments and options. 
  
 
 

@@ -17,14 +17,14 @@ import sys
 import os.path as path 
 import typer 
 import json 
-from typing import List, Dict, Optional  
+from typing import List, Dict, Optional, Tuple   
 
 
 app = typer.Typer()
 
 
 #######
-def getFileComponents(name):
+def getFileComponents(name: str) -> Tuple[str, str, str]:
     """
     return (apspath, dirname, filename) if name is the name of a file, else throw exception.
 
@@ -38,7 +38,7 @@ def getFileComponents(name):
     return (abs, dirname, filename)
 
 #######
-def isJson(tstr):
+def isJson(tstr: str) -> object:
     """ if tstr is valid JSON, return object created from the string, else, return None """ 
     ret = None
     try:
@@ -48,13 +48,13 @@ def isJson(tstr):
     return ret
 
 #######
-def getJsonObjectFromLog(binary_log):
+def getJsonObjectFromLog(binary_log: str) -> object:
     """ take the binary string and return an object if the string is valid JSON """ 
     log = binary_log.decode(errors='ignore')
     return isJson(log)
 
 #######
-def getJsonObjectsFromFile(filename):
+def getJsonObjectsFromFile(filename: str) -> object:
     """ simply read all lines from the file and return objects for valid JSON lines """ 
     with open(filename,'rb') as logs:
         for binary_log in logs:
@@ -65,7 +65,7 @@ def getJsonObjectsFromFile(filename):
 """ examples of using the getJsonObjectsFromFile generator """ 
 
 #######
-def countJsonProperties(filename):
+def countJsonProperties(filename: str):
     properties_count = {}
     for log_obj in getJsonObjectsFromFile(filename):
         for key in log_obj.keys():
@@ -82,6 +82,12 @@ def printAllProperties(obj: object) -> None:
 #######
 def getPropertyFromObject(obj: object, prop: str, submatch: bool, insensitive: bool) -> str:
     ret = ""
+    compareKey = ""
+    compareProp = prop.lower() if  insensitive else prop  
+    for key in obj.keys():
+        compareKey = key.lower() if insensitive else key 
+        if (submatch and (compareProp in compareKey)) or (compareProp == compareKey):
+            ret = f'{key} : {obj[key]}, '
     return ret 
 
 #######
@@ -108,7 +114,7 @@ def printSpecifiedProperties(obj: object, properties: List[str], submatch: bool,
         typer.echo(printstring)
 
 #######
-def printJsonProperties(filename, properties, all, submatch, insensitive):
+def printJsonProperties(filename: str, properties: Optional[List[str]], all: bool, submatch: bool, insensitive: bool):
     for log_obj in getJsonObjectsFromFile(filename):
         if all:
             printAllProperties(log_obj)
@@ -125,7 +131,15 @@ def main(jsonfile: str = typer.Argument(...),
         submatch: bool = typer.Option(False, "-s",  "--submatch", help="let specified properties be a substring of a json property, default is whole word match"),
         insensitive: bool = typer.Option(False, "-i",  "--insensitive", help="ignore case when matching property names, default is case sensitive")
 ) -> None:
-    typer.echo(jsonfile)
+    """
+    queryjsonfile is kind of like grep focused on properties of JSON objects in a text file.
+    if jsonfile is the only argument, a list of the properties, including how often each is present, is printed.
+    If a line in the file is not a valid JSON string, it is ignored.
+    read the comments after each option to udnerstand how each is used.
+    if -a (--all) is present, all -p options are ignored.
+    If no -p or -a option is used, -i and -s are ignored.
+    """
+    typer.echo(f'Querying {jsonfile}')
     if properties or all: 
         printJsonProperties(jsonfile, properties, all, submatch, insensitive)
     else:
