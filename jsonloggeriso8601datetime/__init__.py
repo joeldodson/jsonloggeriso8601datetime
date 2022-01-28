@@ -11,26 +11,31 @@ Configuration WAS in jsonloggerconfig.yaml
 switched to dict config (jsonloggerdictconfig.py) to use same file with gunicorn configuration 
 """
 
+import os 
 import logging 
 import logging.config
 from pythonjsonlogger import jsonlogger 
 import datetime
+from .wrappers import MakedirFileHandler 
+from .wrappers import CustomJsonFormatter 
+from .jsonloggerdictconfig import defaultJLIDTConfig  as defaultConfig 
 
 
-class CustomJsonFormatter(jsonlogger.JsonFormatter):
-    """
-    extend the JsonFormatter to generate an ISO8601 timestamp 
-    """
-    def add_fields(self, log_record, record, message_dict):
-        super(CustomJsonFormatter, self).add_fields(log_record, record, message_dict)
-        log_record['timestamp'] =  datetime.datetime.fromtimestamp(record.created).astimezone().isoformat()
+currentLoggingConfig = None 
 
+#######
+def setConfig(config = defaultConfig):
+    global currentLoggingConfig 
+    currentLoggingConfig = config 
+    logging.config.dictConfig(config)
 
-from .jsonloggerdictconfig import dictConfig 
-logging.config.dictConfig(dictConfig)
+####### 
+def getCurrentConfig():
+    return currentLoggingConfig 
 
-def getJsonLogger(name):
-    return logging.getLogger(name) 
+####### 
+def getDefaultConfig():
+    return defaultConfig 
 
 
 if __name__ == '__main__':

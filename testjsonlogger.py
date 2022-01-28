@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
-from jsonloggeriso8601datetime import getJsonLogger
+import logging 
+import jsonloggeriso8601datetime as jlidt 
 
+jlidt.setConfig() 
 
 if __name__ == '__main__':
-    parentLogger = getJsonLogger('parentLogger')
-    childLogger = getJsonLogger('parentLogger.childLogger')
+    parentLogger = logging.getLogger('parentLogger')
+    childLogger = logging.getLogger('parentLogger.childLogger')
 
     parentLogger.warning("using dict config now") 
     childLogger.warning("okay boomer, go back to your dict config, yaml is too hip for you.")

@@ -1,6 +1,7 @@
 
 
-dictConfig = {
+# the default Json Logger Iso8601 Date Time Config 
+defaultJLIDTConfig = {
     "version": 1,
     ## "incremental": False,
     "disable_existing_loggers": False,
@@ -21,7 +22,8 @@ dictConfig = {
             "stream": "ext://sys.stdout"
         },
         "jsonFile": {
-            "class": "logging.FileHandler",
+            ## "class": "logging.FileHandler",
+            "()": "jsonloggeriso8601datetime.MakedirFileHandler",
             "level": "DEBUG",
             "formatter": "jsonFile",
             "filename": "./logs/jsonLogs.log",

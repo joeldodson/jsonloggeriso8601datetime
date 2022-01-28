@@ -80,38 +80,69 @@ def printAllProperties(obj: object) -> None:
     typer.echo(obj)
 
 #######
-def getPropertyFromObject(obj: object, prop: str, submatch: bool, insensitive: bool) -> str:
-    ret = ""
+def getPropertyFromObject(obj: object, prop: str, submatch: bool, insensitive: bool) -> object:
+    """
+    I was using a string to return the property from the object matching the prop parameter
+    NOTE: when submatch is True, prop can match more than one property in obj
+    now returning a dict of all properties matched 
+    """
+    ret = {}
     compareKey = ""
     compareProp = prop.lower() if  insensitive else prop  
     for key in obj.keys():
         compareKey = key.lower() if insensitive else key 
         if (submatch and (compareProp in compareKey)) or (compareProp == compareKey):
-            ret = f'{key} : {obj[key]}, '
+            """ 
+            this conditional does an extra comparison when submatch is true 
+            but compareProp is not in compareKey
+            it is a nice one-liner though, not counting all these comments 
+            maybe I'll change it someday.
+            """
+            ret[key] = obj[key]
     return ret 
+
+#######
+def printMatchObj(obj: object, matchObj: object) -> None: 
+    """
+    I want to print the matched properties in the same order 
+    in which they appear in the original object.
+    Since matched properties can be added to matchObj in any order 
+    (based on the order of -p on command line, or submatch)
+    I use the original object to create the print string.
+    """
+    printstring = "" 
+    for k,v in obj.items():
+        if matchObj.get(k, None) != None:
+            printstring += f'{k} : {v}, '
+    typer.echo(printstring)
 
 #######
 def printSpecifiedProperties(obj: object, properties: List[str], submatch: bool, insensitive: bool) -> None:
     """
-    if the obj contains a property listed in the properties list,
-    print a line with the property and value of each match,
-    else don't print anything 
+    print line with each property from obj matching a string in the properties list 
+    if no properties in obj are matched by any string in properties list, 
+    don't print anything 
+    NOTE: with submatch, it's possible for a string in properties to match multiple properties in obj
+    or multiple strings in properties could match multiple properties in job.
+    keeping track of the matches in a dict addresses this multiple match problem.
+    Once all the strings in properties list have been checked, the match dict can be printed as a single line 
     """
-    printstring = ""
+    matchObj = {}
     for prop in properties:
         if submatch or insensitive:
             # iterating through each property appears to be the only way to 
             # check if prop is a substring of a property in the object,
             # or to do a case insensitive get() 
-            printstring += getPropertyFromObject(obj, prop, submatch, insensitive)
+            matchObj.update(getPropertyFromObject(obj, prop, submatch, insensitive))
+            ## typer.echo(f'current matchObj is {matchObj}')
         else: 
             # if submatch and insensitive are both False, check if the property is in the object
-            # if it is, add the property and its value to the print string.
-            value = obj.get(prop, None)
-            if value != None:
-                printstring += f'{prop} = {value}, '
-    if len(printstring) > 0:
-        typer.echo(printstring)
+            # if it is, add the property and its value to the match object .
+            if obj.get(prop, None) != None:
+                matchObj[prop] = obj[prop]
+                ## typer.echo(f'current matchObj is {matchObj}')
+    if len(matchObj.keys()) > 0:
+        printMatchObj(obj, matchObj)
 
 #######
 def printJsonProperties(filename: str, properties: Optional[List[str]], all: bool, submatch: bool, insensitive: bool):
@@ -124,7 +155,11 @@ def printJsonProperties(filename: str, properties: Optional[List[str]], all: boo
 #######
 # callback makes 'main' the default command to run if no commands are given 
 ##
-@app.callback(invoke_without_command=True)
+## @app.callback(invoke_without_command=True)
+# using callback results in help implying there are commands possible after the arguments 
+# using app.command shows only the arguments in the help usage first line.
+#
+@app.command()
 def main(jsonfile: str = typer.Argument(...),
         properties: Optional[List[str]] = typer.Option(None, "-p", "--property", help="use multiple -p options to print multiple properties."),   
         all: bool = typer.Option(False, "-a", "--all", help="print all properties, -p options are ignored when this is set"),
