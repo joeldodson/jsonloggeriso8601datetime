@@ -1,5 +1,4 @@
-
-"""
+"""  jsonloggeriso8601datetime/__init__.py 
 wrapper on logging to use JSON for log to file output 
 
 Sssee https://pypi.org/project/python-json-logger/  for JSON formatting 
@@ -21,7 +20,9 @@ from .wrappers import CustomJsonFormatter
 from .jsonloggerdictconfig import defaultJLIDTConfig  as defaultConfig 
 
 
-currentLoggingConfig = None 
+""" do this to have config set by simply importing this package """
+currentLoggingConfig = defaultConfig 
+logging.config.dictConfig(currentLoggingConfig)
 
 #######
 def setConfig(config = defaultConfig):
@@ -42,3 +43,4 @@ if __name__ == '__main__':
     print("you really ought to run the testjsonlogger.py file in the project's root directory")
 
 
+## end of file 

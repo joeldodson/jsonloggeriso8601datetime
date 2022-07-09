@@ -1,6 +1,7 @@
-###
-# file with some wrappers around other classes 
-##
+"""  jsonloggeriso8601datetime/wrappers.py 
+thie idea, and code, to subclass FileHandler came from stackoverflow post:
+https://stackoverflow.com/questions/20666764/python-logging-how-to-ensure-logfile-directory-is-created?noredirect=1&lq=1
+"""
 
 import os 
 import logging 
@@ -9,10 +10,6 @@ from pythonjsonlogger import jsonlogger
 import datetime
 
 
-"""
-thie idea, and code, to subclass FileHandler came from stackoverflow post:
-https://stackoverflow.com/questions/20666764/python-logging-how-to-ensure-logfile-directory-is-created?noredirect=1&lq=1
-"""
 ####### 
 def mkdir_p(path):
     """http://stackoverflow.com/a/600612/190597 (tzot)"""

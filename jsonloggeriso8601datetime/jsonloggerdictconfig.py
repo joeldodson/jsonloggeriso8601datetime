@@ -7,7 +7,7 @@ defaultJLIDTConfig = {
     "disable_existing_loggers": False,
     "formatters": {
         "console": {
-            "format": "%(module)s %(name)s %(levelname)s %(message)s"
+            "format": "%(levelname)s -- %(message)s -- from logger: %(name)s "
         },
         "jsonFile": {
             "()": "jsonloggeriso8601datetime.CustomJsonFormatter",
@@ -17,7 +17,7 @@ defaultJLIDTConfig = {
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
-            "level": "INFO",
+            "level": "DEBUG",
             "formatter": "console",
             "stream": "ext://sys.stdout"
         },
