@@ -1,16 +1,16 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import logging 
 import jsonloggeriso8601datetime as jlidt 
 
-jlidt.setConfig() 
+# jlidt.setConfig() 
 
 if __name__ == '__main__':
     parentLogger = logging.getLogger('parentLogger')
     childLogger = logging.getLogger('parentLogger.childLogger')
 
-    parentLogger.warning("using dict config now") 
-    childLogger.warning("okay boomer, go back to your dict config, yaml is too hip for you.")
+    parentLogger.warning("Because I have years of wisdom and want what's best for you.") 
+    childLogger.error("you are right, I should listen to you.")
 
     parentLogger.info('info log from parentLogger')
     childLogger.info('info log from childLogger')

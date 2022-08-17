@@ -40,7 +40,8 @@ def getDefaultConfig():
 
 
 if __name__ == '__main__':
-    print("you really ought to run the testjsonlogger.py file in the project's root directory")
+    logger = logging.getLogger(__name__)
+    logger.warn("you really ought to run the testjsonlogger.py file in the project's root directory")
 
 
 ## end of file 
