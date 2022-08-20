@@ -3,7 +3,7 @@
 import logging 
 import jsonloggeriso8601datetime as jlidt 
 
-# jlidt.setConfig() 
+jlidt.setConfig() 
 
 if __name__ == '__main__':
     parentLogger = logging.getLogger('parentLogger')

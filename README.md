@@ -1,14 +1,20 @@
-# jsonloggeriso8601datetime Package 
+# jsonloggeriso8601datetime Package
 
-Uses the package 
+This package is mainly about providing an out of the box configuration to enable the builtin Python logging package to generate logs as JSON.  
+It starts with the package
 [python-json-logger](https://pypi.org/project/python-json-logger/) 
-as a starting point and adds a simple custom formatter to format the timestamp to comply with ISO8601 formats.  I also add a default config to log to the console and to a log file. 
+and adds a simple custom formatter to format the timestamp to comply with ISO8601 formats.
+It also provides a default config to log to the console and to a log file. 
+See jlidtExample.py for an example of the basic use case.
 
-This package is really about providing an out of the box configuration to enable the builtin Python logging package to generate logs as JSON.  See the file testjsonlogger.py for an example of the basic use case.
-
-If you're happy with the default configuration, the basic use case is all you need to do.  If you want to change the configuration (e.g., add more properties to the file output), pass in a modified dict to setConfig().  
-
-Though it's easy to clone this repo and see the default config, you can also get it from the module itself by calling getDefaultConfig() directly on the jsonloggeriso8601datetime module.  You can start with that config for modifications.
+If you're happy with the default configuration, the basic use case is all you need.
+If you want to change the configuration (e.g., add more properties to the file output), pass in a modified dict to setConfig().
+You can start with the default config using the script jlidtDefaultConfig.py, redirect to a file, then edit that file accordingly.
+For example:
+``` sh
+$ jlidtDefaultConfig.py > myConfig.py
+```
+edit myConfig.py to give the dict a variable name, then import myConfig, name you gave your dict variable, to your project and use that dict in setConfig. 
 
 For the log file output, the package will ensure the directory exists before trying to write to the log file.  This is done by the MakedirFileHandler subclass.  Check out the wrappers.py module in jsonloggeriso8601datetime package if you're curious.
 
