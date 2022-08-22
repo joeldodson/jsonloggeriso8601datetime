@@ -9,36 +9,63 @@ See jlidtExample.py for an example of the basic use case.
 
 If you're happy with the default configuration, the basic use case is all you need.
 If you want to change the configuration (e.g., add more properties to the file output), pass in a modified dict to setConfig().
-You can start with the default config using the script jlidtDefaultConfig.py, redirect to a file, then edit that file accordingly.
+You can start with the default config using the script jlidtdefaultconfig, redirect to a file, then edit that file accordingly.
 For example:
 ``` sh
-$ jlidtDefaultConfig.py > myConfig.py
+$ jlidtdefaultconfig > myCustomConfig.py
 ```
 edit myConfig.py to give the dict a variable name, then import myConfig, name you gave your dict variable, to your project and use that dict in setConfig. 
 
-For the log file output, the package will ensure the directory exists before trying to write to the log file.  This is done by the MakedirFileHandler subclass.  Check out the wrappers.py module in jsonloggeriso8601datetime package if you're curious.
+For the log file output, the package will ensure the directory exists before trying to write to the log file.
+This is done by the MakedirFileHandler subclass.
+Check out the wrappers.py module in jsonloggeriso8601datetime package if you're curious.
 
-## Configuration 
-I was using a yaml file for configuration.  I wanted to use the same config for gunicorn though and it does not support yaml based config.  So I converted the yaml  config to a dict to use Python's dictConfig.
+## Configuration
 
-I've kept the yaml file in the repo for reference.  I added the code that used to be in __init__.py to use the yaml config in the yaml file also for reference. 
+The file jsonloggerdictconfig.py, in the package's directory contains default configuration for logging to stdout with minimal information, not JSON formatted.
+It also configures a handler to log to a file with much more information and log statements are JSON formatted.
+As noted above, you can see the values of the default configuration by running ``` jlidtdefaultconfig ```.
+I've created this default configuration with screen readers in mind.
+Logging to the console is minimized to avoid a lot of screen reader chatter.
+Logging to a file is maximized and formatted to support other tools processing those logs and possibly presenting the information in a more accessible way.
+Also, if logs are to be processed by any anomaly detection systems, JSON is probably best.
 
-the file jsonloggerdictconfig.py, in the package's directory contains default configuration for logging to stdout with minimal information, not JSON formatted.  It also configures a handler to log to a file with much more information and log statements are JSON formatted.
+You might notice there's a gunicorn logger in the config file.
+I added that to get gunicorn to work with this default config.
+There might be a better way to do this.  I stopped looking for solutions once I got this working with gunicorn.
 
-I've created this default configuration with screen readers in mind.  Logging to the console is minimized to avoid a lot of screen reader chatter.  Logging to file is maximized and formatted to support other tools processing those logs and possibly presenting the information in a more accessible way.  Also, if logs are to be processed by any anomaly detection systems, JSON is preferred.
+## Dependencies
 
-You might notice there's a gunicorn logger in the config file.  I added that to get gunicorn to work with this config.  There might be a better way to do this.  I stopped looking for solutions once I got this working with gunicorn.   
-## Dependencies 
+See the requirements.txt file for the details of packages this package requires.
+Short answer though is python-json-logger 2.0.4 is the only requirement at time of writing.
 
-See the requirements.txt file for the packages this package requires.
+## Scripts
 
-## queryjsonfile.py utility 
-I wanted to know what the JSON in the log files looked like, e.g., the properties it contained and how consistent each JSON object was.  I also wanted to be able to print only some of the properties (grep/awk would be painful to pick out properties and their values).
+Two very small scripts (entry points) are shipped with this package.
+``` sh
+jlidtdefaultconfig
+```
+and 
+``` sh 
+jlidtexample
+```
+should both be installed as part of the pip installation.
 
-queryjsonfile.py does this for me.  
-run:
-queryjsonfile.py --help 
-for information regarding arguments and options. 
- 
+jlidtDefaultConfig has already been described.  jlidtExample.py uses jsonloggeriso8601datetime with its default config.
+You can run that to determine if the default config is sufficient.
+It's currently set to DEBUG for both the  console and file loggers.
+I might change that.
 
+## More Details
 
+If you like this functionality and want to extend it, I suggest starting with python-json-logger.
+The documentation there is very good and it seems to be a popular package on PyPI.
+You're even welcome to take my extension and add it to whatever you do to extend python-json-logger.
+
+I built this package really for my own opinions and added it to PyPI so I could pip install it instead of copying it around to different projects.
+Also I can import it to the REPL and easily get logs in a file.
+
+If others like this default config and ISO8601 timestamps, great.
+Enjoy the package and feel free to open issues on github.
+
+Cheers!!

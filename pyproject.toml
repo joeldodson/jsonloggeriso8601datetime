@@ -1,9 +1,11 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "jsonloggeriso8601datetime"
-version = "0.1.0"
-authors = [
-  { name="BlindGumption", email="blindgumption@gmail.com" },
-]
+version = "1.0.0"
+authors = [{ name="BlindGumption", email="blindgumption@gmail.com" }]
 description = "Custom formatter for python-json-logger to iso8601 format the timestamp.  Also provides default console and file loggers"
 readme = "README.md"
 license = { file="LICENSE" }
@@ -13,12 +15,15 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+keywords = ["logging", "json", "iso8601", "configuration"]
+dependencies = ["python-json-logger"]
 
 [project.urls]
 "Homepage" = "https://github.com/blindgumption/jsonloggeriso8601datetime"
 "Bug Tracker" = "https://github.com/blindgumption/jsonloggeriso8601datetime/issues"
 "python-json-logger" = "https://pypi.org/project/python-json-logger"
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+[project.scripts]
+jlidtdefaultconfig = "jsonloggeriso8601datetime.__init__:printDefaultConfig"
+jlidtexample = "jsonloggeriso8601datetime.__init__:example"
+
