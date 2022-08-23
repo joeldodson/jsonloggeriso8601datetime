@@ -5,10 +5,15 @@ It starts with the package
 [python-json-logger](https://pypi.org/project/python-json-logger/) 
 and adds a simple custom formatter to format the timestamp to comply with ISO8601 formats.
 It also provides a default config to log to the console and to a log file. 
-See jlidtExample.py for an example of the basic use case.
+After installing the package, run
+``` sh
+$ jlidtexample 
+```
+to see the default console logging output.
+look in ``` logs/jsonLogs.log ``` to see the default file logging output.
 
 If you're happy with the default configuration, the basic use case is all you need.
-If you want to change the configuration (e.g., add more properties to the file output), pass in a modified dict to setConfig().
+If you want to change the configuration (e.g., add more properties to the file output, change default logging levels), pass in a modified dict to setConfig().
 You can start with the default config using the script jlidtdefaultconfig, redirect to a file, then edit that file accordingly.
 For example:
 ``` sh
@@ -17,7 +22,7 @@ $ jlidtdefaultconfig > myCustomConfig.py
 edit myConfig.py to give the dict a variable name, then import myConfig, name you gave your dict variable, to your project and use that dict in setConfig. 
 
 For the log file output, the package will ensure the directory exists before trying to write to the log file.
-This is done by the MakedirFileHandler subclass.
+This is done by the MakedirFileHandler class.
 Check out the wrappers.py module in jsonloggeriso8601datetime package if you're curious.
 
 ## Configuration
@@ -56,7 +61,7 @@ You can run that to determine if the default config is sufficient.
 It's currently set to DEBUG for both the  console and file loggers.
 I might change that.
 
-## More Details
+## Wrapping It Up
 
 If you like this functionality and want to extend it, I suggest starting with python-json-logger.
 The documentation there is very good and it seems to be a popular package on PyPI.
