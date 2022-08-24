@@ -25,6 +25,18 @@ For the log file output, the package will ensure the directory exists before try
 This is done by the MakedirFileHandler class.
 Check out the wrappers.py module in jsonloggeriso8601datetime package if you're curious.
 
+## How To Use
+
+Add the below lines to the beginning of the main python file (where __name__ == "__main__"):
+
+``` python
+import logging
+import jsongloggeriso8601datetime as jlidt
+jlidt.setConfig()  # using the provided default configuration 
+```
+
+This will configure a root logger which, from my understanding of Python logging, will result in all subsequent logs to use that configuration (unless specifically overridden).
+
 ## Configuration
 
 The file jsonloggerdictconfig.py, in the package's directory contains default configuration for logging to stdout with minimal information, not JSON formatted.
