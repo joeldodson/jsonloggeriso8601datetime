@@ -1,6 +1,9 @@
+"""
+default Json Logger Iso8601 Date Time Config 
+"""
 
+import os 
 
-# the default Json Logger Iso8601 Date Time Config 
 defaultJLIDTConfig = {
     "version": 1,
     ## "incremental": False,
@@ -17,14 +20,16 @@ defaultJLIDTConfig = {
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
-            "level": "DEBUG",
+            ## "level": "DEBUG",
+            "level": os.getenv('JLIDT_CONSOLE_LEVEL', 'INFO'),
             "formatter": "console",
             "stream": "ext://sys.stdout"
         },
         "jsonFile": {
             ## "class": "logging.FileHandler",
             "()": "jsonloggeriso8601datetime.MakedirFileHandler",
-            "level": "DEBUG",
+            ## "level": "DEBUG",
+            "level": os.getenv('JLIDT_JSONFILE_LEVEL', 'INFO'),
             "formatter": "jsonFile",
             "filename": "./logs/jsonLogs.log",
             "encoding": "utf8"
@@ -42,3 +47,5 @@ defaultJLIDTConfig = {
         "handlers": ["console", "jsonFile"]
     }
 }
+
+## end of file 

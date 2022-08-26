@@ -47,6 +47,15 @@ Logging to the console is minimized to avoid a lot of screen reader chatter.
 Logging to a file is maximized and formatted to support other tools processing those logs and possibly presenting the information in a more accessible way.
 Also, if logs are to be processed by any anomaly detection systems, JSON is probably best.
 
+The log level for both console and JSON file defaults to "INFO".
+that can be changed by setting environment variables to the desired level.
+For example, in PowerShell:
+``` sh
+$Env:JLIDT_CONSOLE_LEVEL = "DEBUG"
+$Env:JLIDT_JSONFILE_LEVEL = "WARNING"
+```
+will set the console logger to DEBUG and the JSON file logger to WARNING.
+ 
 You might notice there's a gunicorn logger in the config file.
 I added that to get gunicorn to work with this default config.
 There might be a better way to do this.  I stopped looking for solutions once I got this working with gunicorn.
@@ -70,8 +79,7 @@ should both be installed as part of the pip installation.
 
 jlidtDefaultConfig has already been described.  jlidtExample.py uses jsonloggeriso8601datetime with its default config.
 You can run that to determine if the default config is sufficient.
-It's currently set to DEBUG for both the  console and file loggers.
-I might change that.
+As noted above, it's currently set to INFO for both the  console and file loggers and changeable using environment variables.
 
 ## Wrapping It Up
 
