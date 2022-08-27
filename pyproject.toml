@@ -4,10 +4,10 @@ build-backend = "hatchling.build"
 
 [project]
 name = "jsonloggeriso8601datetime"
-version = "1.0.2"
+version = "1.0.3"
 authors = [
-    { name="joeldodson", email="joeldodson@gmail.com" }
-    { name="BlindGumption", email="blindgumption@gmail.com" }
+    { name="joeldodson", email="joeldodson@gmail.com" },
+    { name="BlindGumption", email="blindgumption@gmail.com" },
 ]
 description = "Custom formatter for python-json-logger to iso8601 format the timestamp.  Also provides default console and file loggers"
 readme = "README.md"

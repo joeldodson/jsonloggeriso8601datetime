@@ -85,12 +85,16 @@ As noted above, it's currently set to INFO for both the  console and file logger
 
 ### 1.0.1
 
-initial package plus typo fix
+* initial package plus typo fix
 
 ### 1.0.2
 
 * moved the repo from github.om/blindgumption to github.com/joeldodson
 * changed default log levels to INFO and provided env vars option to set different levels
+
+### 1.0.3
+
+* typo in pyproject and using pip-tools changed requirements.txt 
 
 ## Wrapping It Up
 
