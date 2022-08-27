@@ -55,7 +55,7 @@ $Env:JLIDT_CONSOLE_LEVEL = "DEBUG"
 $Env:JLIDT_JSONFILE_LEVEL = "WARNING"
 ```
 will set the console logger to DEBUG and the JSON file logger to WARNING.
- 
+
 You might notice there's a gunicorn logger in the config file.
 I added that to get gunicorn to work with this default config.
 There might be a better way to do this.  I stopped looking for solutions once I got this working with gunicorn.
@@ -80,6 +80,17 @@ should both be installed as part of the pip installation.
 jlidtDefaultConfig has already been described.  jlidtExample.py uses jsonloggeriso8601datetime with its default config.
 You can run that to determine if the default config is sufficient.
 As noted above, it's currently set to INFO for both the  console and file loggers and changeable using environment variables.
+
+## Version History
+
+### 1.0.1
+
+initial package plus typo fix
+
+### 1.0.2
+
+* moved the repo from github.om/blindgumption to github.com/joeldodson
+* changed default log levels to INFO and provided env vars option to set different levels
 
 ## Wrapping It Up
 
