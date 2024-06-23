@@ -2,7 +2,7 @@
 default Json Logger Iso8601 Date Time Config 
 """
 
-import os 
+import os
 
 defaultJLIDTConfig = {
     "version": 1,
@@ -10,30 +10,31 @@ defaultJLIDTConfig = {
     "disable_existing_loggers": False,
     "formatters": {
         "console": {
-            "format": "%(levelname)s -- %(message)s -- from logger: %(name)s "
+            "format": "%(levelname)s -- %(message)s -- %(module)s:%(lineno)d, %(name)s"
         },
         "jsonFile": {
+            # see https://docs.python.org/3/library/logging.config.html to understand the "()" key
             "()": "jsonloggeriso8601datetime.CustomJsonFormatter",
-            "format": "%(timestamp)s %(module)s %(name)s %(levelname)s %(message)s"
-        }
+            "format": "%(timestamp)s %(module)s %(lineno)d %(name)s %(levelname)s %(message)s",
+        },
     },
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
             ## "level": "DEBUG",
-            "level": os.getenv('JLIDT_CONSOLE_LEVEL', 'INFO'),
+            "level": os.getenv("JLIDT_CONSOLE_LEVEL", "INFO"),
             "formatter": "console",
-            "stream": "ext://sys.stdout"
+            "stream": "ext://sys.stdout",
         },
         "jsonFile": {
             ## "class": "logging.FileHandler",
             "()": "jsonloggeriso8601datetime.MakedirFileHandler",
             ## "level": "DEBUG",
-            "level": os.getenv('JLIDT_JSONFILE_LEVEL', 'INFO'),
+            "level": os.getenv("JLIDT_JSONFILE_LEVEL", "INFO"),
             "formatter": "jsonFile",
             "filename": "./logs/jsonLogs.log",
-            "encoding": "utf8"
-        }
+            "encoding": "utf8",
+        },
     },
     "loggers": {
         "gunicorn": {
@@ -42,10 +43,7 @@ defaultJLIDTConfig = {
             "handlers": ["console", "jsonFile"],
         },
     },
-    "root": {
-        "level": "DEBUG",
-        "handlers": ["console", "jsonFile"]
-    }
+    "root": {"level": "DEBUG", "handlers": ["console", "jsonFile"]},
 }
 
-## end of file 
+## end of file

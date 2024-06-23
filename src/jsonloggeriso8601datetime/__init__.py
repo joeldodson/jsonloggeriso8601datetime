@@ -18,26 +18,30 @@ from .wrappers import MakedirFileHandler
 from .wrappers import CustomJsonFormatter 
 from .jsonloggerdictconfig import defaultJLIDTConfig  as defaultConfig 
 
-currentLoggingConfig = None
+currentConfig = None
 
 #######
 def setConfig(config = defaultConfig):
-    global currentLoggingConfig 
-    currentLoggingConfig = config 
+    global currentConfig 
+    currentConfig = config 
     logging.config.dictConfig(config)
 
-####### 
+#######
 def getCurrentConfig():
-    return currentLoggingConfig 
+    return currentConfig 
 
-####### 
+#######
 def getDefaultConfig():
     return defaultConfig 
 
 
-### 
+###
 def printDefaultConfig():
     print(json.dumps(defaultConfig, indent=4)) 
+
+###
+def printCurrentConfig():
+    print(json.dumps(currentConfig, indent=4))
 
 
 #######
@@ -61,4 +65,4 @@ if __name__ == '__main__':
     logger.warn("do not seek the treasure")
 
 
-## end of file 
+## end of file
