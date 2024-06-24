@@ -7,13 +7,10 @@ Could not get the python logging module to format the timestamp in the iso8601 f
 was able to find way using datetime and CustomJasonFormatter 
 """
 
-import os 
 import logging 
 import logging.config
 import json
 
-from pythonjsonlogger import jsonlogger 
-import datetime
 from .wrappers import MakedirFileHandler 
 from .wrappers import CustomJsonFormatter 
 from .jsonloggerdictconfig import defaultJLIDTConfig  as defaultConfig 

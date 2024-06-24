@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jsonloggeriso8601datetime"
-version = "1.0.4"
+version = "1.0.5"
 authors = ["Joel Dodson <joeldodson@gmail.com>"]
 maintainers = ["BlindGumption <blindgumption@gmail.com>"]
 license = "MIT"
@@ -17,12 +17,13 @@ classifiers = [
 keywords = ["structured", "console", "logging", "json", "iso8601", "configuration"]
 packages = [
     { include = "jsonloggeriso8601datetime", from = "src" },
+    { include = "jlidt_pjl", from = "src" },
     { include = "jilqs", from = "src" },
 ]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-python-json-logger = {git = "https://github.com/nhairs/python-json-logger.git", rev = "v3.1.0"}
+## python-json-logger = {git = "https://github.com/nhairs/python-json-logger.git", rev = "v3.1.0"}
 
 [tool.poetry.group.dev.dependencies]
 autopep8 = "^2.3.0"

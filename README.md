@@ -70,6 +70,16 @@ Unfortunately the current maintainer does not aappear to be responding and mergi
 Thus, [python-json-logger is currently being pulled from github](https://github.com/nhairs/python-json-logger).
 That repo page has information regarding the process of switching maintainers.
 
+### temporary workaround 
+
+Turns out PyPI does not like people uploading packages with dependencies pointing to github.
+To be able to publish this package, I copied pythonjsonlogger source code to 
+the src directory in jsonloggeriso8601datetime as jlidt_pjl.
+This is a temporary solution and 
+I added a README  file in that directory to explain it.
+Once ownership of python-json-logger is resolved,
+I will delete my local copy of pythonjsonlogger source code.
+
 ## Scripts
 
 Some simple functionality is provided directly from `jsonloggeriso8601datetime` itself using `python -m`. Run:
@@ -121,6 +131,12 @@ to see what it does.
   into the module itself.
   See notes above under the Scripts heading.
 - introduced jilqs (see note above under Scripts heading)
+
+### 1.0.5
+
+- copied python-json-logger source code into jsonloggeriso8601datetime repo.
+  This has been noted in the main README and a README created in the jlidt_pjl source directory.
+  I decided to bump the version for this to keep it separate from anything else.
 
 ## Wrapping It Up
 

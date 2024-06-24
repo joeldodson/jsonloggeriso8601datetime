@@ -6,7 +6,7 @@ https://stackoverflow.com/questions/20666764/python-logging-how-to-ensure-logfil
 import os 
 import logging 
 import logging.config
-from pythonjsonlogger import jsonlogger 
+from jlidt_pjl import jsonlogger
 import datetime
 
 
