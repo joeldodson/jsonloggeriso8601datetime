@@ -1,11 +1,11 @@
-[tool.poetry]
+[project]
 name = "jsonloggeriso8601datetime"
-version = "1.0.5"
-authors = ["Joel Dodson <joeldodson@gmail.com>"]
-maintainers = ["BlindGumption <blindgumption@gmail.com>"]
-license = "MIT"
+version = "2.0.0"
+authors = [
+    {name = "Joel Dodson",email = "joeldodson@gmail.com"}
+]
 readme = "README.md"
-repository = "https://github.com/joeldodson/jsonloggeriso8601datetime"
+license = "MIT"
 description = "Custom formatter for python-json-logger to iso8601 format timestamps.  includes default console and file logger config"
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -15,36 +15,22 @@ classifiers = [
     "Topic :: System :: Logging",
 ]
 keywords = ["structured", "console", "logging", "json", "iso8601", "configuration"]
+requires-python = ">=3.10"
+dependencies = ["python-json-logger (>=3.3.0)"]
+
+[project.urls]
+repository = "https://github.com/joeldodson/jsonloggeriso8601datetime"
+
+[project.scripts]
+jlidt="jsonloggeriso8601datetime:run" 
+jlidtQS="jlidtQS:run" # Json Iso8601 Logger Query Script 
+
+[tool.poetry]
 packages = [
     { include = "jsonloggeriso8601datetime", from = "src" },
-    { include = "jlidt_pjl", from = "src" },
-    { include = "jilqs", from = "src" },
+    { include = "jlidtQS", from = "src" },
 ]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-## python-json-logger = {git = "https://github.com/nhairs/python-json-logger.git", rev = "v3.1.0"}
-
-[tool.poetry.group.dev.dependencies]
-autopep8 = "^2.3.0"
-ruff = "^0.0.267"
-
-[tool.poetry.scripts]
-jilqs= { callable = "jilqs:run"} # Json Iso8601 Logger Query Script 
-
-[tool.semantic_release]
-version_variable = "pyproject.toml:version" # version location
-branch = "main"                             # branch to make releases of
-## changelog_file = "docs/CHANGELOG.md"             # changelog file
-build_command = "poetry build"              # build dists
-dist_path = "dist/"                         # where to put dists
-upload_to_release = true                    # auto-create GitHub release
-upload_to_pypi = false                      # don't auto-upload to PyPI
-remove_dist = false                         # don't remove dists
-patch_without_tag = true                    # patch release by default
-
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-## end of file

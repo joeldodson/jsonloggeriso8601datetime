@@ -1,5 +1,5 @@
-"""
-default Json Logger Iso8601 Date Time Config 
+"""src/jsonloggeriso8601datetime/jsonloggerdictconfig.py 
+default Json Logger Iso8601 Date Time Config
 """
 
 import os
@@ -32,7 +32,7 @@ defaultJLIDTConfig = {
             ## "level": "DEBUG",
             "level": os.getenv("JLIDT_JSONFILE_LEVEL", "INFO"),
             "formatter": "jsonFile",
-            "filename": "./logs/jsonLogs.log",
+            "filename": os.getenv("JLIDT_JSONFILE_PATHNAME","./logs/jsonLogs.log"),
             "encoding": "utf8",
         },
     },

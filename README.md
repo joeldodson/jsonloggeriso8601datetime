@@ -1,6 +1,6 @@
 # jsonloggeriso8601datetime Package
 
-This package is mainly about providing an out of the box configuration to enable the builtin Python logging package to generate logs as JSON.  
+This package is mainly about providing an out of the box configuration to enable the built-in Python logging package to generate logs as JSON.  
 It starts with the package
 [python-json-logger](https://pypi.org/project/python-json-logger/) 
 and adds a simple custom formatter to format the timestamp to comply with ISO8601 formats.
@@ -24,9 +24,38 @@ edit myConfig.py to give the dict a variable name, then import myConfig, name yo
 
 For the log file output, the package will ensure the directory exists before trying to write to the log file.
 This is done by the MakedirFileHandler class.
-Check out the wrappers.py module in jsonloggeriso8601datetime package if you're curious.
 
-## How To Use
+## Scripts
+
+After you ``` pip install jsonloggeriso8601datetime ```, or however you manage your python environment,
+you will have two new scripts available from the command line.
+
+### jlidt
+
+``` jlidt ``` is for json logger iso8601 datetime.
+You can use this script instead of the longer example above of invoking the module using the ```-m``` option.
+Run,
+
+``` bash 
+jlidt --help
+```
+
+for how it works.
+
+### jlidtQS
+
+``` jlidtQS ``` is the same as above with Query String added.
+It is a program to parse and analyze the JSON formatted log files.
+It was named ```jilqs```, changed it for consistency.
+Run, 
+
+``` bash 
+jlidtQS --help
+```
+
+for details.
+
+## How To Use jsonloggeriso8601datetime
 
 Add the below lines to the beginning of the main python file (where __name__ == "__main__"):
 
@@ -42,7 +71,8 @@ This will configure a root logger which, from my understanding of Python logging
 
 The file jsonloggerdictconfig.py, in the package's directory contains default configuration for logging to stdout with minimal information, not JSON formatted.
 It also configures a handler to log to a file with much more information and log statements are JSON formatted.
-As noted above, you can see the values of the default configuration by running ``` python -m jsonloggeriso8601datetime -d  ```.
+As noted above, you can see the values of the default configuration by running ``` python -m jsonloggeriso8601datetime -d  ```,
+(or, the easier ``` jlidt -d ``` as noted in the scripts section ).
 I've created this default configuration with screen readers in mind.
 Logging to the console is minimized to avoid a lot of screen reader chatter.
 Logging to a file is maximized and formatted to support other tools processing those logs and possibly presenting the information in a more accessible way.
@@ -52,10 +82,17 @@ The log level for both console and JSON file defaults to "INFO".
 that can be changed by setting environment variables to the desired level.
 For example, in PowerShell:
 ``` sh
-Env:JLIDT_CONSOLE_LEVEL = "DEBUG"
-Env:JLIDT_JSONFILE_LEVEL = "WARNING"
+$Env:JLIDT_CONSOLE_LEVEL = "DEBUG"
+$Env:JLIDT_JSONFILE_LEVEL = "WARNING"
 ```
 will set the console logger to DEBUG and the JSON file logger to WARNING.
+
+The log files will, by default, be written to ```./logs/jsonLogs.log```.
+There is an environment variable to change this too.  Try,
+
+``` sh
+$Env:JLIDT_JSONFILE_PATHNAME = "my/path/my-filename.log"
+```
 
 You might notice there's a gunicorn logger in the config file.
 I added that to get gunicorn to work with this default config.
@@ -64,48 +101,7 @@ There might be a better way to do this.  I stopped looking for solutions once I 
 ## Dependencies
 
 The python-json-logger is the only requirement at time of writing.
-It's unfortunately going through some possible abandonment issues.
-A new maintainer (nhairs) has stepped up and made many fixes.
-Unfortunately the current maintainer does not aappear to be responding and merging PRs.
-Thus, [python-json-logger is currently being pulled from github](https://github.com/nhairs/python-json-logger).
-That repo page has information regarding the process of switching maintainers.
-
-### temporary workaround 
-
-Turns out PyPI does not like people uploading packages with dependencies pointing to github.
-To be able to publish this package, I copied pythonjsonlogger source code to 
-the src directory in jsonloggeriso8601datetime as jlidt_pjl.
-This is a temporary solution and 
-I added a README  file in that directory to explain it.
-Once ownership of python-json-logger is resolved,
-I will delete my local copy of pythonjsonlogger source code.
-
-## Scripts
-
-Some simple functionality is provided directly from `jsonloggeriso8601datetime` itself using `python -m`. Run:
-
-``` sh
-python -m jsonloggeriso8601datetime --help
-```
-
-to see what is available.
-As of v1.0.4, you can pretty print the default config to stdout.
-You can also run a simple example to check the default config, to determine if it's sufficient.
-As noted above, it's currently set to INFO for both the  console and file loggers and changeable using environment variables.
-
-### jilqs (Json Iso8601 Logger Query Script)
-
-jilqs is installed as a script by default (not as an extra).
-I decided to do this for simplicity, 
-and the name is bad enough it's unlikely to conflict with anything else on your system.
-It's very light weight and uses only standard Python.
-Run:
-
-``` sh
- jilqs --help 
-```
-
-to see what it does.
+See notes in the changes for 2.0.0 regarding this package.
 
 ## Version History
 
@@ -137,6 +133,14 @@ to see what it does.
 - copied python-json-logger source code into jsonloggeriso8601datetime repo.
   This has been noted in the main README and a README created in the jlidt_pjl source directory.
   I decided to bump the version for this to keep it separate from anything else.
+
+### 2.0.0 
+
+- major version bump:  the logging itself is backward compatible, but I changed the name of jilqs to be consistent.
+- added script, ```jlidt``` for simplicity, don't have to run with ```python -m```
+- upgraded to poetry 2.x
+- python-json-logger ownership has been resolved.  Back to the pypi version now
+- restructured code to be a bit more pythonic
 
 ## Wrapping It Up
 
