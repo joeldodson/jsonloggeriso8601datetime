@@ -1,6 +1,6 @@
 [project]
 name = "jsonloggeriso8601datetime"
-version = "2.0.0"
+version = "3.0.0"
 authors = [
     {name = "Joel Dodson",email = "joeldodson@gmail.com"}
 ]
@@ -22,13 +22,12 @@ dependencies = ["python-json-logger (>=3.3.0)"]
 repository = "https://github.com/joeldodson/jsonloggeriso8601datetime"
 
 [project.scripts]
-jlidt="jsonloggeriso8601datetime:run" 
-jlidtQS="jlidtQS:run" # Json Iso8601 Logger Query Script 
+jlidtCli="jsonloggeriso8601datetime.scripts.jlidtCli:run" 
+jlidtQs="jsonloggeriso8601datetime.scripts.jlidtQs:run" 
 
 [tool.poetry]
 packages = [
     { include = "jsonloggeriso8601datetime", from = "src" },
-    { include = "jlidtQS", from = "src" },
 ]
 
 [build-system]

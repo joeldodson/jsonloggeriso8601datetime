@@ -23,34 +23,35 @@ python -m jsonloggeriso8601datetime -d > myCustomConfig.py
 edit myConfig.py to give the dict a variable name, then import myConfig, name you gave your dict variable, to your project and use that dict in setConfig. 
 
 For the log file output, the package will ensure the directory exists before trying to write to the log file.
-This is done by the MakedirFileHandler class.
+This is done by the MakedirFileHandler class
+(in src/jsonloggeriso8601datetime/wrappers.py).
 
 ## Scripts
 
 After you ``` pip install jsonloggeriso8601datetime ```, or however you manage your python environment,
 you will have two new scripts available from the command line.
 
-### jlidt
+### jlidtCli
 
-``` jlidt ``` is for json logger iso8601 datetime.
+``` jlidtCli ``` is for json logger iso8601 datetime Command line interface.
 You can use this script instead of the longer example above of invoking the module using the ```-m``` option.
 Run,
 
 ``` bash 
-jlidt --help
+jlidtCli --help
 ```
 
 for how it works.
 
-### jlidtQS
+### jlidtQs
 
-``` jlidtQS ``` is the same as above with Query String added.
+``` jlidtQs ``` is the same as above with Query String added.
 It is a program to parse and analyze the JSON formatted log files.
 It was named ```jilqs```, changed it for consistency.
 Run, 
 
 ``` bash 
-jlidtQS --help
+jlidtQs --help
 ```
 
 for details.
@@ -72,7 +73,7 @@ This will configure a root logger which, from my understanding of Python logging
 The file jsonloggerdictconfig.py, in the package's directory contains default configuration for logging to stdout with minimal information, not JSON formatted.
 It also configures a handler to log to a file with much more information and log statements are JSON formatted.
 As noted above, you can see the values of the default configuration by running ``` python -m jsonloggeriso8601datetime -d  ```,
-(or, the easier ``` jlidt -d ``` as noted in the scripts section ).
+(or, the easier ``` jlidtCli -d ``` as noted in the scripts section ).
 I've created this default configuration with screen readers in mind.
 Logging to the console is minimized to avoid a lot of screen reader chatter.
 Logging to a file is maximized and formatted to support other tools processing those logs and possibly presenting the information in a more accessible way.
@@ -141,6 +142,17 @@ See notes in the changes for 2.0.0 regarding this package.
 - upgraded to poetry 2.x
 - python-json-logger ownership has been resolved.  Back to the pypi version now
 - restructured code to be a bit more pythonic
+
+### 3.0.0 - 2025-04-30 
+
+- big changes to repo structure.
+- the major version of 3 is more about me dithering around with poetry 2 and pyproject.toml 
+  than the maturity of the project.
+  Though the project is pretty mature and I don't expect many more big changes.
+- changed script ``` jlidt ``` to ``` jlidtCli ```   
+- got rid of extra package for the scripts.
+  Added a scripts sub directory in the main jsonloggeriso8601datetime and moved jlidtCli and jlidtQs there,
+  and updated pyproject.toml to install both with the jsonloggeriso8601datetime project.
 
 ## Wrapping It Up
 
